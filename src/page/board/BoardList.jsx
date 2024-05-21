@@ -31,7 +31,7 @@ export function BoardList() {
             {boardList.map((board) => (
               <Tr
                 _hover={{
-                  bgColor: "gray.200",
+                  bgColor: "blue.200",
                 }}
                 cursor={"pointer"}
                 onClick={() => navigate(`/board/${board.id}`)}
