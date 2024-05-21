@@ -95,7 +95,12 @@ export function BoardView() {
         <Input type={"datetime-local"} value={board.inserted} readOnly />
       </Box>
       <Box>
-        <Button colorScheme={"blue"}>수정</Button>
+        <Button
+          colorScheme={"blue"}
+          onClick={() => navigate(`/edit/${board.id}`)}
+        >
+          수정
+        </Button>
         <Button colorScheme={"red"} onClick={onOpen}>
           삭제
         </Button>
