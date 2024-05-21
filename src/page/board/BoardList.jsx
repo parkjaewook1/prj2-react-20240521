@@ -1,17 +1,13 @@
 import { Box, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPen } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export function BoardList() {
   const [boardList, setBoardList] = useState([]);
   const navigate = useNavigate();
-
-  // [{id:5, title:"제목1",writer:"누구1"},
-  //  {id:5, title:"제목1",writer:"누구1"},
-  // {id:5, title:"제목1",writer:"누구1"}]
 
   useEffect(() => {
     axios.get("/api/board/list").then((res) => setBoardList(res.data));
@@ -26,7 +22,9 @@ export function BoardList() {
             <Tr>
               <Th>#</Th>
               <Th>TITLE</Th>
-              <FontAwesomeIcon icon={faUserPen} />
+              <Th>
+                <FontAwesomeIcon icon={faUserPen} />
+              </Th>
             </Tr>
           </Thead>
           <Tbody>

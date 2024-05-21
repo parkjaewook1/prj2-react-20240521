@@ -15,9 +15,9 @@ export function BoardWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [writer, setWriter] = useState("");
+  const [loading, setLoading] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
 
   function handleSaveClick() {
     setLoading(true);
@@ -29,7 +29,7 @@ export function BoardWrite() {
       })
       .then(() => {
         toast({
-          description: " 새 글이 등록되었습니다.",
+          description: "새 글이 등록되었습니다.",
           status: "success",
           position: "top",
         });
