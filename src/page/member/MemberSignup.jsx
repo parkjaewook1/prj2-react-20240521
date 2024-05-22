@@ -16,9 +16,12 @@ import { useNavigate } from "react-router-dom";
 export function MemberSignup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [nickName, setNickName] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
+  const [nickName, setNickName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isCheckedEmail, setIsCheckedEmail] = useState(false);
+  const [isCheckedNickName, setIsCheckedNickName] = useState(false);
+
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -73,6 +76,7 @@ export function MemberSignup() {
             description: "사용할 수 있는 이메일입니다.",
             position: "top",
           });
+          setIsCheckedEmail(true);
         }
       })
       .finally();
@@ -95,6 +99,7 @@ export function MemberSignup() {
             description: "사용할 수 있는 별명입니다.",
             position: "top",
           });
+          setIsCheckedNickName(true);
         }
       })
       .finally();
@@ -118,6 +123,14 @@ export function MemberSignup() {
     isDisabled = true;
   }
 
+  if (!isCheckedEmail) {
+    isDisabled = true;
+  }
+
+  if (!isCheckedNickName) {
+    isDisabled = true;
+  }
+
   return (
     <Box>
       <Box>회원 가입</Box>
@@ -126,13 +139,21 @@ export function MemberSignup() {
           <FormControl>
             <FormLabel>이메일</FormLabel>
             <InputGroup>
-              <Input onChange={(e) => setEmail(e.target.value)} />
+              <Input
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setIsCheckedEmail(false);
+                }}
+              />
               <InputRightElement w={"75px"} mr={1}>
                 <Button onClick={handleCheckEmail} size={"sm"}>
                   중복확인
                 </Button>
               </InputRightElement>
             </InputGroup>
+            {isCheckedEmail || (
+              <FormHelperText>이메일 중복확인을 해주세요</FormHelperText>
+            )}
           </FormControl>
         </Box>
         <Box>
@@ -146,7 +167,7 @@ export function MemberSignup() {
             <FormLabel>암호확인</FormLabel>
             <Input onChange={(e) => setPasswordCheck(e.target.value)} />
             {isCheckedPassword || (
-              <FormHelperText>암호가 일치하지 않습니다</FormHelperText>
+              <FormHelperText>암호가 일치하지 않습니다.</FormHelperText>
             )}
           </FormControl>
         </Box>
@@ -154,13 +175,21 @@ export function MemberSignup() {
           <FormControl>
             <FormLabel>별명</FormLabel>
             <InputGroup>
-              <Input onChange={(e) => setNickName(e.target.value)} />
+              <Input
+                onChange={(e) => {
+                  setNickName(e.target.value);
+                  setIsCheckedNickName(false);
+                }}
+              />
               <InputRightElement w={"75px"} mr={1}>
                 <Button size={"sm"} onClick={handleCheckNickName}>
                   중복확인
                 </Button>
               </InputRightElement>
             </InputGroup>
+            {isCheckedNickName || (
+              <FormHelperText>닉네임 중복확인을 해주세요</FormHelperText>
+            )}
           </FormControl>
         </Box>
         <Box>
@@ -168,7 +197,7 @@ export function MemberSignup() {
             isLoading={isLoading}
             colorScheme={"blue"}
             onClick={handleClick}
-            isDisable={isDisabled}
+            isDisabled={isDisabled}
           >
             가입
           </Button>
