@@ -62,14 +62,36 @@ export function MemberSignup() {
           description: "사용할 수 없는 이메일입니다.",
           position: "top",
         });
+      }) // 이미 있는 이메일 (사용 못함)
+      .catch((err) => {
+        if (err.response.status === 404) {
+          // 사용할 수 있는 이메일
+          toast({
+            status: "info",
+            description: "사용할 수 있는 이메일입니다.",
+            position: "top",
+          });
+        }
+      })
+      .finally();
+  }
+
+  function handleCheckNickName() {
+    axios
+      .get(`/api/member/check?nickName=${nickName}`)
+      .then((res) => {
+        toast({
+          status: "warning",
+          description: "사용할 수 없는 별명입니다.",
+          position: "top",
+        });
       })
       .catch((err) => {
         if (err.response.status === 404) {
-          // 사용 할 수 있는 이메일
           toast({
             status: "info",
-            description: " 사용할 수 있는 이메일입니다.",
-            position: "top,",
+            description: "사용할 수 있는 별명입니다.",
+            position: "top",
           });
         }
       })
@@ -87,7 +109,7 @@ export function MemberSignup() {
               <Input onChange={(e) => setEmail(e.target.value)} />
               <InputRightElement w={"75px"} mr={1}>
                 <Button onClick={handleCheckEmail} size={"sm"}>
-                  중복 확인
+                  중복확인
                 </Button>
               </InputRightElement>
             </InputGroup>
@@ -102,7 +124,14 @@ export function MemberSignup() {
         <Box>
           <FormControl>
             <FormLabel>별명</FormLabel>
-            <Input onChange={(e) => setNickName(e.target.value)} />
+            <InputGroup>
+              <Input onChange={(e) => setNickName(e.target.value)} />
+              <InputRightElement w={"75px"} mr={1}>
+                <Button size={"sm"} onClick={handleCheckNickName}>
+                  중복확인
+                </Button>
+              </InputRightElement>
+            </InputGroup>
           </FormControl>
         </Box>
         <Box>
