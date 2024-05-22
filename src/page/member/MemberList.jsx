@@ -40,7 +40,7 @@ export function MemberList() {
             {memberList.map((member) => (
               <Tr
                 cursor={"pointer"}
-                _hover={{ bgColor: "gray.200" }}
+                _hover={{ bgColor: "blue.200" }}
                 onClick={() => navigate(`/member/${member.id}`)}
                 key={member.id}
               >
