@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { Box, Flex } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
+import { LoginContext } from "./LoginProvider.jsx";
 
 export function Navbar() {
   const navigate = useNavigate();
+  const account = useContext(LoginContext);
 
   return (
     <Flex gap={3}>
@@ -16,54 +18,64 @@ export function Navbar() {
       >
         HOME
       </Box>
-      <Box
-        onClick={() => navigate("/write")}
-        cursor={"pointer"}
-        _hover={{
-          bgColor: "gray.200",
-        }}
-      >
-        글쓰기
-      </Box>
-      <Box
-        onClick={() => navigate("/member/list")}
-        cursor={"pointer"}
-        _hover={{
-          bgColor: "gray.200",
-        }}
-      >
-        회원목록
-      </Box>
-      <Box
-        onClick={() => navigate("/signup")}
-        cursor={"pointer"}
-        _hover={{
-          bgColor: "gray.200",
-        }}
-      >
-        회원가입
-      </Box>
-      <Box
-        onClick={() => navigate("/login")}
-        cursor={"pointer"}
-        _hover={{
-          bgColor: "gray.200",
-        }}
-      >
-        로그인
-      </Box>
-      <Box
-        onClick={() => {
-          localStorage.removeItem("token");
-          navigate("/login");
-        }}
-        cursor={"pointer"}
-        _hover={{
-          bgColor: "blue.200",
-        }}
-      >
-        로그아웃
-      </Box>
+      {account.isLoggedIn() && (
+        <Box
+          onClick={() => navigate("/write")}
+          cursor={"pointer"}
+          _hover={{
+            bgColor: "gray.200",
+          }}
+        >
+          글쓰기
+        </Box>
+      )}
+      {account.isLoggedIn() && (
+        <Box
+          onClick={() => navigate("/member/list")}
+          cursor={"pointer"}
+          _hover={{
+            bgColor: "gray.200",
+          }}
+        >
+          회원목록
+        </Box>
+      )}
+      {account.isLoggedIn() || (
+        <Box
+          onClick={() => navigate("/signup")}
+          cursor={"pointer"}
+          _hover={{
+            bgColor: "gray.200",
+          }}
+        >
+          회원가입
+        </Box>
+      )}
+      {account.isLoggedIn() || (
+        <Box
+          onClick={() => navigate("/login")}
+          cursor={"pointer"}
+          _hover={{
+            bgColor: "gray.200",
+          }}
+        >
+          로그인
+        </Box>
+      )}
+      {account.isLoggedIn() && (
+        <Box
+          onClick={() => {
+            account.logout();
+            navigate("/login");
+          }}
+          cursor={"pointer"}
+          _hover={{
+            bgColor: "gray.200",
+          }}
+        >
+          로그아웃
+        </Box>
+      )}
     </Flex>
   );
 }
