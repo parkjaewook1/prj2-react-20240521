@@ -53,9 +53,25 @@ export function MemberEdit() {
   function handleClickSave() {
     axios
       .put("/api/member/modify", { ...member, oldPassword })
-      .then((res) => {})
-      .catch(() => {})
-      .finally(() => {});
+      .then((res) => {
+        toast({
+          status: "success",
+          description: "회원 정보가 수정되었습니다.",
+          position: "top",
+        });
+        navigate(`/member/${id}`);
+      })
+      .catch(() => {
+        toast({
+          status: "error",
+          description: "회원 정보가 수정되지 않았습니다.",
+          position: "top",
+        });
+      })
+      .finally(() => {
+        onClose();
+        setOldPassword("");
+      });
   }
 
   if (member === null) {
@@ -72,6 +88,10 @@ export function MemberEdit() {
     isDisableNickNameCheckButton = true;
   }
 
+  if (isCheckedNickName) {
+    isDisableNickNameCheckButton = true;
+  }
+
   let isDisableSaveButton = false;
 
   if (member.password !== passwordCheck) {
@@ -79,6 +99,10 @@ export function MemberEdit() {
   }
 
   if (member.nickName.trim().length === 0) {
+    isDisableSaveButton = true;
+  }
+
+  if (!isCheckedNickName) {
     isDisableSaveButton = true;
   }
 
@@ -142,9 +166,11 @@ export function MemberEdit() {
           <FormControl>별명</FormControl>
           <InputGroup>
             <Input
-              onChange={(e) =>
-                setMember({ ...member, nickName: e.target.value.trim() })
-              }
+              onChange={(e) => {
+                const newNickName = e.target.value.trim();
+                setMember({ ...member, nickName: newNickName });
+                setIsCheckedNickName(newNickName === oldNickName);
+              }}
               value={member.nickName}
             />
             <InputRightElement w={"75px"} mr={1}>
