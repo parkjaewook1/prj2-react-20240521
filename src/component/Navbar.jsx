@@ -34,7 +34,6 @@ export function Navbar() {
       >
         회원목록
       </Box>
-
       <Box
         onClick={() => navigate("/signup")}
         cursor={"pointer"}
@@ -43,6 +42,15 @@ export function Navbar() {
         }}
       >
         회원가입
+      </Box>
+      <Box
+        onClick={() => navigate("/login")}
+        cursor={"pointer"}
+        _hover={{
+          bgColor: "gray.200",
+        }}
+      >
+        로그인
       </Box>
     </Flex>
   );
