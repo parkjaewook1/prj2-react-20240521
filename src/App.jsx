@@ -11,6 +11,7 @@ import { MemberList } from "./page/member/MemberList.jsx";
 import { MemberInfo } from "./page/member/MemberInfo.jsx";
 import { MemberEdit } from "./page/member/MemberEdit.jsx";
 import { MemberLogin } from "./page/member/MemberLogin.jsx";
+import { MemberLogin1 } from "./MemberLogin1.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       { path: "member/:id", element: <MemberInfo /> },
       { path: "member/edit/:id", element: <MemberEdit /> },
       { path: "login", element: <MemberLogin /> },
+      { path: "login", element: <MemberLogin1 /> },
     ],
   },
 ]);
