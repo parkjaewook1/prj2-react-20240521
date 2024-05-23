@@ -15,7 +15,6 @@ import { LoginContext } from "../../component/LoginProvider.jsx";
 export function BoardWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
   const [loading, setLoading] = useState(false);
   const account = useContext(LoginContext);
   const toast = useToast();
@@ -55,9 +54,6 @@ export function BoardWrite() {
     disableSaveButton = true;
   }
   if (content.trim().length === 0) {
-    disableSaveButton = true;
-  }
-  if (writer.trim().length === 0) {
     disableSaveButton = true;
   }
 
