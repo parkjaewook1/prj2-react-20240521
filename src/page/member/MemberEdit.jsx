@@ -87,7 +87,7 @@ export function MemberEdit() {
     isDisableNickNameCheckButton = true;
   }
 
-  if (member.nickName.length == 0) {
+  if (member.nickName.length === 0) {
     isDisableNickNameCheckButton = true;
   }
 
