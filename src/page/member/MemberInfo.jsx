@@ -45,6 +45,13 @@ export function MemberInfo() {
             position: "top",
           });
           navigate("/");
+        } else if (err.response.status === 403) {
+          toast({
+            status: "error",
+            description: "권한이 없습니다.",
+            position: "top",
+          });
+          navigate(-1);
         }
       });
   }, []);
@@ -108,17 +115,19 @@ export function MemberInfo() {
             <Input isReadOnly value={member.inserted} type={"datetime-local"} />
           </FormControl>
         </Box>
-        <Box>
-          <Button
-            onClick={() => navigate(`/member/edit/${member.id}`)}
-            colorScheme={"purple"}
-          >
-            수정
-          </Button>
-          <Button colorScheme={"red"} onClick={onOpen}>
-            탈퇴
-          </Button>
-        </Box>
+        {account.hasAccess(member.id) && (
+          <Box>
+            <Button
+              onClick={() => navigate(`/member/edit/${member.id}`)}
+              colorScheme={"purple"}
+            >
+              수정
+            </Button>
+            <Button colorScheme={"red"} onClick={onOpen}>
+              탈퇴
+            </Button>
+          </Box>
+        )}
       </Box>
 
       <Modal isOpen={isOpen} onClose={onClose}>

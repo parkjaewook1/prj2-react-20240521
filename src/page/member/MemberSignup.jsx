@@ -154,7 +154,7 @@ export function MemberSignup() {
               />
               <InputRightElement w={"75px"} mr={1}>
                 <Button
-                  isDisabled={!isValidEmail || email.trim().length === 0}
+                  isDisabled={!isValidEmail || email.trim().length == 0}
                   onClick={handleCheckEmail}
                   size={"sm"}
                 >
