@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   Textarea,
@@ -15,8 +16,8 @@ import { LoginContext } from "../../component/LoginProvider.jsx";
 export function BoardWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(false);
   const account = useContext(LoginContext);
   const toast = useToast();
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ export function BoardWrite() {
     disableSaveButton = true;
   }
 
-  //file 목록 작성
+  // file 목록 작성
   const fileNameList = [];
   for (let i = 0; i < files.length; i++) {
     fileNameList.push(<li>{files[i].name}</li>);
@@ -85,13 +86,14 @@ export function BoardWrite() {
           <FormControl>
             <FormLabel>파일</FormLabel>
             <Input
-              multiple={true}
+              multiple
               type="file"
               accept="image/*"
-              onChange={(e) => {
-                setFiles(e.target.files);
-              }}
+              onChange={(e) => setFiles(e.target.files)}
             />
+            <FormHelperText>
+              총 용량은 10MB, 한 파일은 1MB를 초과할 수 없습니다.
+            </FormHelperText>
           </FormControl>
         </Box>
         <Box>
