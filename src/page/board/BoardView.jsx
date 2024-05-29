@@ -4,6 +4,7 @@ import axios from "axios";
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
   Heading,
@@ -29,7 +30,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export function BoardView() {
   const { id } = useParams();
   const [board, setBoard] = useState(null);
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState({
+    like: false,
+    count: 0,
+  });
   const account = useContext(LoginContext);
   const toast = useToast();
   const navigate = useNavigate();
@@ -87,10 +91,17 @@ export function BoardView() {
       <flex>
         <Heading>{board.id}번 게시물</Heading>
         <Spacer />
-        <Box onClick={() => setLike(!like)} cursor="pointer" fontSize="3xl">
-          {like && <FontAwesomeIcon icon={fullThumb} />}
-          {like || <FontAwesomeIcon icon={emptyThumb} />}
-        </Box>
+        <Flex>
+          <Box
+            onClick={() => setLike({ ...like, like: !like.like })}
+            cursor="pointer"
+            fontSize="3xl"
+          >
+            {like.like && <FontAwesomeIcon icon={fullThumb} />}
+            {like.like || <FontAwesomeIcon icon={emptyThumb} />}
+          </Box>
+          <Box fontSize="3xl">{like.count}</Box>
+        </Flex>
       </flex>
       <Box>
         <FormControl>
