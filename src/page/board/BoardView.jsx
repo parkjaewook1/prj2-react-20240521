@@ -34,6 +34,7 @@ export function BoardView() {
     like: false,
     count: 0,
   });
+  const [isLikeProcessing, setIsLikeProcessing] = useState(false);
   const account = useContext(LoginContext);
   const toast = useToast();
   const navigate = useNavigate();
@@ -87,13 +88,16 @@ export function BoardView() {
   }
 
   function handleClickLike() {
+    setIsLikeProcessing(true);
     axios
       .put(`/api/board/like`, { boardId: board.id })
       .then((res) => {
         setLike(res.data);
       })
       .catch(() => {})
-      .finally(() => {});
+      .finally(() => {
+        setIsLikeProcessing(false);
+      });
   }
 
   return (
@@ -101,13 +105,20 @@ export function BoardView() {
       <flex>
         <Heading>{board.id}번 게시물</Heading>
         <Spacer />
-        <Flex>
-          <Box onClick={handleClickLike} cursor="pointer" fontSize="3xl">
-            {like.like && <FontAwesomeIcon icon={fullThumb} />}
-            {like.like || <FontAwesomeIcon icon={emptyThumb} />}
+        {isLikeProcessing || (
+          <Flex>
+            <Box onClick={handleClickLike} cursor="pointer" fontSize="3xl">
+              {like.like && <FontAwesomeIcon icon={fullThumb} />}
+              {like.like || <FontAwesomeIcon icon={emptyThumb} />}
+            </Box>
+            <Box fontSize="3xl">{like.count}</Box>
+          </Flex>
+        )}
+        {isLikeProcessing && (
+          <Box pr={3}>
+            <Spinner />
           </Box>
-          <Box fontSize="3xl">{like.count}</Box>
-        </Flex>
+        )}
       </flex>
       <Box>
         <FormControl>
