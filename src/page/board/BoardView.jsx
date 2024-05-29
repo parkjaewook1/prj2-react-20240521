@@ -30,10 +30,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export function BoardView() {
   const { id } = useParams();
   const [board, setBoard] = useState(null);
+
   const [like, setLike] = useState({
     like: false,
     count: 0,
   });
+
   const [isLikeProcessing, setIsLikeProcessing] = useState(false);
   const account = useContext(LoginContext);
   const toast = useToast();
@@ -43,7 +45,10 @@ export function BoardView() {
   useEffect(() => {
     axios
       .get(`/api/board/${id}`)
-      .then((res) => setBoard(res.data))
+      .then((res) => {
+        setBoard(res.data.board);
+        setLike(res.data.like);
+      })
       .catch((err) => {
         if (err.response.status === 404) {
           toast({
@@ -102,7 +107,7 @@ export function BoardView() {
 
   return (
     <Box>
-      <flex>
+      <Flex>
         <Heading>{board.id}번 게시물</Heading>
         <Spacer />
         {isLikeProcessing || (
@@ -119,7 +124,7 @@ export function BoardView() {
             <Spinner />
           </Box>
         )}
-      </flex>
+      </Flex>
       <Box>
         <FormControl>
           <FormLabel>제목</FormLabel>
