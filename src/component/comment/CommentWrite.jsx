@@ -16,6 +16,7 @@ export function CommentWrite({ boardId, isSending, setIsSending }) {
         comment,
       })
       .then((res) => {
+        setComment("");
         toast({
           description: "댓글이 등록되었습니다.",
           position: "top",
@@ -36,6 +37,7 @@ export function CommentWrite({ boardId, isSending, setIsSending }) {
         onChange={(e) => setComment(e.target.value)}
       />
       <Button
+        isDisabled={comment.trim().length === 0}
         isLoading={isSending}
         onClick={handleCommentSubmitClick}
         colorScheme={"blue"}
