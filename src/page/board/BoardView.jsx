@@ -19,12 +19,13 @@ import {
   Spacer,
   Spinner,
   Textarea,
+  Tooltip,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { LoginContext } from "../../component/LoginProvider.jsx";
-import { faThumbsUp as fullThumb } from "@fortawesome/free-solid-svg-icons";
-import { faThumbsUp as emptyThumb } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as fullHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function BoardView() {
@@ -93,6 +94,9 @@ export function BoardView() {
   }
 
   function handleClickLike() {
+    if (!account.isLoggedIn()) {
+      return;
+    }
     setIsLikeProcessing(true);
     axios
       .put(`/api/board/like`, { boardId: board.id })
@@ -112,10 +116,16 @@ export function BoardView() {
         <Spacer />
         {isLikeProcessing || (
           <Flex>
-            <Box onClick={handleClickLike} cursor="pointer" fontSize="3xl">
-              {like.like && <FontAwesomeIcon icon={fullThumb} />}
-              {like.like || <FontAwesomeIcon icon={emptyThumb} />}
-            </Box>
+            <Tooltip
+              isDisabled={account.isLoggedIn()}
+              hasArrow
+              label="로그인 해주세요."
+            >
+              <Box onClick={handleClickLike} cursor="pointer" fontSize="3xl">
+                {like.like && <FontAwesomeIcon icon={fullHeart} />}
+                {like.like || <FontAwesomeIcon icon={emptyHeart} />}
+              </Box>
+            </Tooltip>
             <Box fontSize="3xl">{like.count}</Box>
           </Flex>
         )}

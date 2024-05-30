@@ -37,7 +37,7 @@ export function BoardEdit() {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   useEffect(() => {
-    axios.get(`/api/board/${id}`).then((res) => setBoard(res.data));
+    axios.get(`/api/board/${id}`).then((res) => setBoard(res.data.board));
   }, []);
 
   function handleClickSave() {
@@ -78,7 +78,6 @@ export function BoardEdit() {
   const fileNameList = [];
   for (let addFile of addFileList) {
     // 이미 있는 파일과 중복된 파일명인지?
-    // duplicate = true  : 중복 확인
     let duplicate = false;
     for (let file of board.fileList) {
       if (file.name === addFile.name) {
